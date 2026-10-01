@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HIDDEN CATS - Fantasy Logic Puzzle Game</title>
+  <meta name="description" content="A magical dark fantasy 2D puzzle game inspired by N-Queens constraints. Find the hidden cats across enchanted realms.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo/hidden_cats_logo.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;700;800&family=Fredoka:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/menu.css">
+  <link rel="stylesheet" href="css/game.css">
+  <link rel="stylesheet" href="css/profile.css">
+  <link rel="stylesheet" href="css/leaderboard.css">
+  <link rel="stylesheet" href="css/settings.css">
+  <link rel="stylesheet" href="css/howtoplay.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Background Animated Fantasy Environment -->
+  <div id="scene-container">
+    <div class="sky-gradient"></div>
+    <div class="magical-moon"></div>
+    <canvas id="fx-canvas"></canvas>
+    <div class="forest-mist"></div>
+    <div class="forest-silhouettes"></div>
+  </div>
+
+  <!-- Toast Notification Hub -->
+  <div id="toast-container"></div>
+
+  <!-- Main Viewport / Screen Router -->
+  <main id="app">
+
+    <!-- ================= 1. LOADING SCREEN ================= -->
+    <section id="screen-loading" class="screen">
+      <div class="loading-box">
+        <img src="assets/logo/hidden_cats_logo.png" alt="Hidden Cats Logo" class="loading-logo">
+        <h2 class="loading-text">Entering the Cat Kingdom...</h2>
+        <div class="loading-paws">
+          <img src="assets/icons/paw.svg" class="loading-paw" alt="Paw">
+          <img src="assets/icons/paw.svg" class="loading-paw" alt="Paw">
+          <img src="assets/icons/paw.svg" class="loading-paw" alt="Paw">
+          <img src="assets/icons/paw.svg" class="loading-paw" alt="Paw">
+        </div>
+        <div class="loading-progress-container">
+          <div id="loading-bar-fill" class="loading-progress-bar"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 2. LOGIN PAGE ================= -->
+    <section id="screen-login" class="screen active">
+      <div class="login-card glass-panel">
+        <div class="login-brand">
+          <img src="assets/logo/hidden_cats_logo.png" alt="Hidden Cats Logo" class="login-logo">
+          <h1 class="login-title">HIDDEN CATS</h1>
+          <p class="login-tagline">Find. Think. Survive.</p>
+        </div>
+
+        <!-- Quick Continue Banner for Returning Player -->
+        <div id="welcome-back-banner" class="welcome-back-banner">
+          <div class="welcome-back-text">
+            <img id="welcome-back-avatar" src="assets/cats/cat_wizard.svg" class="welcome-back-avatar" alt="Avatar">
+            <span>Welcome back, <strong id="welcome-back-name">Chinnu</strong>!</span>
+          </div>
+          <button type="button" id="btn-quick-continue" class="btn-quick-continue">Continue ▶</button>
+        </div>
+
+        <form id="form-login" class="login-form">
+          <div class="input-group">
+            <label for="input-username" class="input-label">USERNAME</label>
+            <div class="input-wrapper">
+              <span class="input-icon">🐾</span>
+              <input type="text" id="input-username" class="input-magic" placeholder="Enter your username" autocomplete="off" maxlength="18" required>
+            </div>
+          </div>
+          <button type="submit" class="btn-magic btn-enter-game">ENTER GAME</button>
+        </form>
+
+        <div class="login-divider">
+          <span>OR</span>
+        </div>
+
+        <div class="social-login-group">
+          <button type="button" class="btn-social" data-provider="google">
+            <img src="assets/icons/google.svg" alt="Google">
+            <span>Continue with Google</span>
+          </button>
+          <button type="button" class="btn-social" data-provider="facebook">
+            <img src="assets/icons/facebook.svg" alt="Facebook">
+            <span>Continue with Facebook</span>
+          </button>
+          <button type="button" class="btn-social" data-provider="x">
+            <img src="assets/icons/x.svg" alt="X">
+            <span>Continue with X</span>
+          </button>
+        </div>
+
+        <button type="button" id="btn-guest-login" class="btn-guest">Play as Guest</button>
+      </div>
+    </section>
+
+    <!-- ================= 3. MAIN MENU / HOME ================= -->
+    <section id="screen-menu" class="screen">
+      <!-- Top player info & Audio quick toggle -->
+      <div class="menu-top-bar">
+        <div class="player-pill" data-goto="screen-profile" title="View Profile">
+          <img id="menu-player-avatar" src="assets/cats/cat_wizard.svg" class="player-pill-avatar" alt="Avatar">
+          <span class="player-pill-name">🐾 Player: <span id="menu-player-name">Chinnu</span></span>
+        </div>
+        <div class="menu-audio-toggle">
+          <button id="menu-audio-btn" class="btn-icon-only" title="Toggle Sound">🔊</button>
+        </div>
+      </div>
+
+      <!-- Center Logo & Navigation Menu -->
+      <div class="menu-center">
+        <img src="assets/logo/hidden_cats_logo.png" alt="Hidden Cats" class="menu-logo">
+        <div class="menu-buttons-list">
+          <button class="btn-magic menu-btn btn-play" data-goto="screen-levels">
+            <span class="btn-icon">▶</span> PLAY GAME
+          </button>
+          <button class="btn-magic menu-btn" data-goto="screen-howtoplay">
+            <span class="btn-icon">📖</span> HOW TO PLAY
+          </button>
+          <button class="btn-magic menu-btn" data-goto="screen-leaderboard">
+            <span class="btn-icon">🏆</span> LEADERBOARD
+          </button>
+          <button class="btn-magic menu-btn" data-goto="screen-profile">
+            <span class="btn-icon">👤</span> PROFILE
+          </button>
+          <button class="btn-magic menu-btn" data-goto="screen-settings">
+            <span class="btn-icon">⚙</span> SETTINGS
+          </button>
+        </div>
+      </div>
+
+      <!-- Animated Roaming Cat in background -->
+      <div class="roaming-cat-container">
+        <img src="assets/cats/cat_wizard.svg" alt="Cat Familiar" class="roaming-cat-img">
+      </div>
+
+      <!-- Bottom Tagline -->
+      <footer class="menu-footer">
+        <p class="menu-tagline">Find. Think. Survive.</p>
+      </footer>
+    </section>
+
+    <!-- ================= 4. HOW TO PLAY ================= -->
+    <section id="screen-howtoplay" class="screen">
+      <div class="tutorial-container">
+        <div class="level-select-header">
+          <button class="btn-secondary" data-goto="screen-menu">← BACK</button>
+          <h2 class="screen-title">📖 HOW TO PLAY</h2>
+          <div style="width: 80px;"></div>
+        </div>
+
+        <div class="tutorial-card glass-panel">
+          <div class="steps-list">
+            <div class="step-item">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <span class="step-title">Look at the colored board</span>
+                <span class="step-desc">The enchanted realm is divided into colorful regions.</span>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <span class="step-title">Each color hides one cat</span>
+                <span class="step-desc">BLUE hides 1 cat, PURPLE hides 1 cat, etc.</span>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <span class="step-title">Find the hidden cats using logic</span>
+                <span class="step-desc">Deduce which exact cell holds the feline using spatial constraints.</span>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <span class="step-title">Do not place cats in the same row</span>
+                <span class="step-desc">No two cats may ever occupy the same horizontal row.</span>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">5</div>
+              <div class="step-content">
+                <span class="step-title">Do not place cats in the same column</span>
+                <span class="step-desc">No two cats may ever occupy the same vertical column.</span>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">6</div>
+              <div class="step-content">
+                <span class="step-title">Do not place cats on the same diagonal</span>
+                <span class="step-desc">Cats on diagonals scare each other away and cannot co-exist!</span>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">7</div>
+              <div class="step-content">
+                <span class="step-title">You have only 3 lives</span>
+                <span class="step-desc">Every wrong step costs 1 life ❤️. If lives reach 0, the cats escape!</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Demo Board preview -->
+          <div class="demo-board-section">
+            <div class="demo-board-title">✨ Mini 2×3 Example Board ✨</div>
+            <div id="demo-board-grid" class="demo-board-grid"></div>
+            <div class="demo-legend">
+              <div class="demo-legend-item">
+                <div class="demo-legend-dot" style="background:#2563eb;"></div>
+                <span>Blue Realm: 1 Cat (0, 0)</span>
+              </div>
+              <div class="demo-legend-item">
+                <div class="demo-legend-dot" style="background:#7c3aed;"></div>
+                <span>Purple Realm: 1 Cat (1, 2)</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-top: 24px;">
+            <button class="btn-magic" data-goto="screen-levels" style="padding: 16px 36px; font-size: 1.15rem;">
+              ▶ START PLAYING
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 5. LEVEL SELECT ================= -->
+    <section id="screen-levels" class="screen">
+      <div class="level-select-header">
+        <button class="btn-secondary" data-goto="screen-menu">← BACK</button>
+        <h2 class="screen-title">CHOOSE YOUR LEVEL</h2>
+        <div style="width: 80px;"></div>
+      </div>
+      <div id="level-cards-container" class="level-grid">
+        <!-- Rendered dynamically by UIManager -->
+      </div>
+    </section>
+
+    <!-- ================= 6. GAME SCREEN ================= -->
+    <section id="screen-game" class="screen">
+      <!-- Top HUD -->
+      <header class="game-hud">
+        <div class="hud-left">
+          <div class="hud-brand">🐾 HIDDEN CATS</div>
+          <div id="hud-level-pill" class="hud-level-pill">LEVEL 01 • Chinnu</div>
+        </div>
+        <div class="hud-center">
+          <div id="hud-hearts-container" class="hud-lives">
+            <span class="hud-heart active">❤️</span>
+            <span class="hud-heart active">❤️</span>
+            <span class="hud-heart active">❤️</span>
+          </div>
+          <div id="hud-cats-count" class="hud-cats-count">CATS FOUND: 0/2</div>
+        </div>
+        <div class="hud-right">
+          <div id="hud-score-value" class="hud-score">SCORE: 0</div>
+          <div id="hud-timer-value" class="hud-time">TIME: 00:00</div>
+        </div>
+      </header>
+
+      <!-- Center Game Arena -->
+      <div class="board-arena-container">
+        <!-- Floating Feedback Toast for Correct / Wrong clicks -->
+        <div id="action-feedback-toast" class="action-feedback-toast"></div>
+        <div id="game-board-arena" class="game-board">
+          <!-- Rendered dynamically by BoardManager -->
+        </div>
+      </div>
+
+      <!-- Bottom Controls -->
+      <footer class="game-bottom-bar">
+        <button id="btn-hint" class="btn-magic btn-game-ctrl btn-hint" title="Use Hint">
+          💡 HINT
+        </button>
+        <button id="btn-reset" class="btn-secondary btn-game-ctrl" title="Reset Current Board">
+          ⟳ RESET
+        </button>
+        <button id="btn-pause" class="btn-secondary btn-game-ctrl" title="Pause Game">
+          ⏸ PAUSE
+        </button>
+      </footer>
+    </section>
+
+    <!-- ================= 7. PLAYER PROFILE ================= -->
+    <section id="screen-profile" class="screen">
+      <div class="profile-container">
+        <div class="level-select-header">
+          <button class="btn-secondary" data-goto="screen-menu">← BACK</button>
+          <h2 class="screen-title">👤 PLAYER PROFILE</h2>
+          <div style="width: 80px;"></div>
+        </div>
+
+        <div class="profile-card glass-panel">
+          <div class="profile-avatar-wrapper">
+            <img id="profile-avatar-img" src="assets/cats/cat_wizard.svg" class="profile-avatar-img" alt="Avatar">
+            <div id="btn-change-avatar" class="profile-avatar-edit-badge" title="Change Avatar">✎</div>
+          </div>
+          <div class="profile-info">
+            <div class="profile-username-row">
+              <span id="profile-username-display" class="profile-username">Chinnu</span>
+              <button id="btn-edit-username" class="btn-edit-username" title="Edit Username">✎</button>
+            </div>
+            <span class="profile-title-tag">🐾 Master Cat Seeker</span>
+          </div>
+        </div>
+
+        <!-- Statistics Grid -->
+        <div class="profile-stats-grid">
+          <div class="profile-stat-card">
+            <div class="profile-stat-icon">🎮</div>
+            <div id="stat-games-played" class="profile-stat-num">0</div>
+            <div class="profile-stat-lbl">Games Played</div>
+          </div>
+          <div class="profile-stat-card">
+            <div class="profile-stat-icon">🏆</div>
+            <div id="stat-games-won" class="profile-stat-num">0</div>
+            <div class="profile-stat-lbl">Games Won</div>
+          </div>
+          <div class="profile-stat-card">
+            <div class="profile-stat-icon">🐱</div>
+            <div id="stat-cats-found" class="profile-stat-num">0</div>
+            <div class="profile-stat-lbl">Cats Found</div>
+          </div>
+          <div class="profile-stat-card">
+            <div class="profile-stat-icon">💎</div>
+            <div id="stat-best-score" class="profile-stat-num">0</div>
+            <div class="profile-stat-lbl">Best Score</div>
+          </div>
+          <div class="profile-stat-card">
+            <div class="profile-stat-icon">⏱</div>
+            <div id="stat-best-time" class="profile-stat-num">--:--</div>
+            <div class="profile-stat-lbl">Best Time</div>
+          </div>
+          <div class="profile-stat-card">
+            <div class="profile-stat-icon">👑</div>
+            <div id="stat-highest-level" class="profile-stat-num">01</div>
+            <div class="profile-stat-lbl">Highest Level</div>
+          </div>
+          <div class="profile-stat-card">
+            <div class="profile-stat-icon">❤️</div>
+            <div id="stat-lives-saved" class="profile-stat-num">0</div>
+            <div class="profile-stat-lbl">Lives Saved</div>
+          </div>
+        </div>
+
+        <!-- Achievements -->
+        <div class="achievements-box glass-panel">
+          <h3 class="section-header-title">🏅 Realm Achievements</h3>
+          <div id="achievements-grid" class="achievements-list">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 8. LEADERBOARD ================= -->
+    <section id="screen-leaderboard" class="screen">
+      <div class="leaderboard-container">
+        <div class="level-select-header">
+          <button class="btn-secondary" data-goto="screen-menu">← BACK</button>
+          <h2 class="screen-title">🏆 LEADERBOARD</h2>
+          <div style="width: 80px;"></div>
+        </div>
+
+        <div class="leaderboard-tabs">
+          <button class="tab-btn active" data-tab="global">GLOBAL</button>
+          <button class="tab-btn" data-tab="weekly">WEEKLY</button>
+          <button class="tab-btn" data-tab="my_score">MY SCORE</button>
+        </div>
+
+        <div class="leaderboard-table-card glass-panel">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th>RANK</th>
+                <th>PLAYER</th>
+                <th>SCORE</th>
+                <th>LEVEL</th>
+                <th>TIME</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboard-tbody">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 9. SETTINGS ================= -->
+    <section id="screen-settings" class="screen">
+      <div class="settings-container">
+        <div class="level-select-header">
+          <button class="btn-secondary" data-goto="screen-menu">← BACK</button>
+          <h2 class="screen-title">⚙ SETTINGS</h2>
+          <div style="width: 80px;"></div>
+        </div>
+
+        <!-- Audio Settings -->
+        <div class="settings-section-card glass-panel">
+          <h3 class="settings-section-title">🔊 AUDIO</h3>
+          <div class="settings-row">
+            <div class="settings-row-label">
+              <span class="setting-title">Sound Effects</span>
+              <span class="setting-desc">Clicks, meows, and spell chimes</span>
+            </div>
+            <div class="settings-controls">
+              <input type="range" id="setting-sfx-vol" class="magic-slider" min="0" max="1" step="0.05" value="0.8">
+              <label class="toggle-switch">
+                <input type="checkbox" id="setting-sfx" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-row-label">
+              <span class="setting-title">Music & Ambience</span>
+              <span class="setting-desc">Mystical synthesized realm chords</span>
+            </div>
+            <div class="settings-controls">
+              <input type="range" id="setting-music-vol" class="magic-slider" min="0" max="1" step="0.05" value="0.5">
+              <label class="toggle-switch">
+                <input type="checkbox" id="setting-music" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Game Settings -->
+        <div class="settings-section-card glass-panel">
+          <h3 class="settings-section-title">✨ GAME PREFERENCES</h3>
+          <div class="settings-row">
+            <div class="settings-row-label">
+              <span class="setting-title">Smooth Animations</span>
+              <span class="setting-desc">Cell pops, paw effects, and glowing mist</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="setting-animations" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="settings-row">
+            <div class="settings-row-label">
+              <span class="setting-title">Particle Quality</span>
+              <span class="setting-desc">Density of fireflies and magical embers</span>
+            </div>
+            <select id="setting-fx-quality" class="select-magic">
+              <option value="high">High (Atmospheric)</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low (Performance)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Display & Fullscreen -->
+        <div class="settings-section-card glass-panel">
+          <h3 class="settings-section-title">🌙 DISPLAY</h3>
+          <div class="settings-row">
+            <div class="settings-row-label">
+              <span class="setting-title">Fullscreen Mode</span>
+              <span class="setting-desc">Expand to fill entire screen display</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="setting-fullscreen">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Account Settings -->
+        <div class="settings-section-card glass-panel">
+          <h3 class="settings-section-title">👤 ACCOUNT</h3>
+          <div class="settings-row">
+            <div class="settings-row-label">
+              <span class="setting-title">Sign Out</span>
+              <span class="setting-desc">Switch player or return to login realm</span>
+            </div>
+            <div style="width: 140px;">
+              <button id="btn-account-logout" class="btn-secondary btn-logout">🚪 LOGOUT</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- Pause Modal -->
+  <div id="modal-pause" class="modal-overlay">
+    <div class="modal-content glass-panel">
+      <div class="endgame-modal-header">
+        <h2 class="endgame-title">⏸ GAME PAUSED</h2>
+        <p class="endgame-subtitle">The cats are waiting in stillness...</p>
+      </div>
+      <div class="endgame-actions">
+        <button id="btn-pause-resume" class="btn-magic">▶ RESUME</button>
+        <button id="btn-pause-restart" class="btn-secondary">🔄 RESTART LEVEL</button>
+        <button id="btn-pause-settings" class="btn-secondary">⚙ SETTINGS</button>
+        <button id="btn-pause-menu" class="btn-secondary">🏠 MAIN MENU</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Level Complete / Victory Modal -->
+  <div id="modal-victory" class="modal-overlay">
+    <div class="modal-content glass-panel">
+      <div class="endgame-modal-header">
+        <h2 class="endgame-title victory">✨ LEVEL COMPLETE ✨</h2>
+        <p class="endgame-subtitle">🐱 All Cats Found!</p>
+      </div>
+      <div id="victory-stars-display" class="endgame-stars">⭐⭐⭐</div>
+      <div class="endgame-stats-box">
+        <div class="endgame-stat-item">
+          <span class="endgame-stat-label">CATS</span>
+          <span id="victory-stat-cats" class="endgame-stat-value">4 / 4</span>
+        </div>
+        <div class="endgame-stat-item">
+          <span class="endgame-stat-label">SCORE</span>
+          <span id="victory-stat-score" class="endgame-stat-value">1,850</span>
+        </div>
+        <div class="endgame-stat-item">
+          <span class="endgame-stat-label">TIME</span>
+          <span id="victory-stat-time" class="endgame-stat-value">01:24</span>
+        </div>
+        <div class="endgame-stat-item">
+          <span class="endgame-stat-label">LIVES</span>
+          <span id="victory-stat-lives" class="endgame-stat-value">❤️❤️❤️</span>
+        </div>
+      </div>
+      <div class="endgame-actions">
+        <button id="btn-victory-next" class="btn-magic gold">▶ NEXT LEVEL</button>
+        <button id="btn-victory-again" class="btn-secondary">🔄 PLAY AGAIN</button>
+        <button id="btn-victory-menu" class="btn-secondary">🏠 MAIN MENU</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Over / Defeat Modal -->
+  <div id="modal-defeat" class="modal-overlay">
+    <div class="modal-content glass-panel">
+      <div class="endgame-modal-header">
+        <h2 class="endgame-title defeat">💀 GAME OVER</h2>
+        <p class="endgame-subtitle">"The cats escaped!"</p>
+      </div>
+      <div class="endgame-stats-box">
+        <div class="endgame-stat-item">
+          <span class="endgame-stat-label">CATS FOUND</span>
+          <span id="defeat-stat-cats" class="endgame-stat-value">2 / 4</span>
+        </div>
+        <div class="endgame-stat-item">
+          <span class="endgame-stat-label">SCORE</span>
+          <span id="defeat-stat-score" class="endgame-stat-value">850</span>
+        </div>
+        <div class="endgame-stat-item" style="grid-column: span 2;">
+          <span class="endgame-stat-label">LEVEL</span>
+          <span id="defeat-stat-level" class="endgame-stat-value">03</span>
+        </div>
+      </div>
+      <div class="endgame-actions">
+        <button id="btn-defeat-again" class="btn-magic">🔄 PLAY AGAIN</button>
+        <button id="btn-defeat-levels" class="btn-secondary">🗺 LEVEL SELECT</button>
+        <button id="btn-defeat-menu" class="btn-secondary">🏠 MAIN MENU</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Avatar Picker Modal -->
+  <div id="modal-avatar-picker" class="modal-overlay">
+    <div class="modal-content glass-panel">
+      <h2 class="endgame-title" style="font-size: 1.5rem;">Choose Your Familiar</h2>
+      <p class="endgame-subtitle" style="font-size: 0.9rem; margin-bottom: 14px;">Select a magical feline avatar for your profile</p>
+      <div id="avatar-choices-grid" class="avatar-selector-grid"></div>
+      <div style="margin-top: 24px;">
+        <button class="btn-secondary" data-close-modal="modal-avatar-picker">CANCEL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Modules in Dependency Order -->
+  <script src="js/storage.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/puzzleGenerator.js"></script>
+  <script src="js/board.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/leaderboard.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

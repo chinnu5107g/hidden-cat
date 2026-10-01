@@ -1,0 +1,180 @@
+/* ==========================================================================
+   HIDDEN CATS - Responsive Layouts & Mobile Adaptation
+   ========================================================================== */
+
+/* Tablet & Smaller Screens (< 860px) */
+@media (max-width: 860px) {
+  .game-hud {
+    padding: 10px 14px;
+    gap: 10px;
+  }
+
+  .hud-brand {
+    font-size: 0.95rem;
+  }
+
+  .hud-lives {
+    font-size: 1.2rem;
+    gap: 6px;
+  }
+
+  .hud-score {
+    font-size: 1rem;
+  }
+
+  .board-cell {
+    border-radius: var(--radius-sm);
+  }
+
+  .profile-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .profile-username-row {
+    justify-content: center;
+  }
+}
+
+/* Mobile Devices (< 600px) */
+@media (max-width: 600px) {
+  html, body {
+    font-size: 14px;
+  }
+
+  .screen {
+    padding: 16px 12px;
+  }
+
+  /* Login card */
+  .login-card {
+    padding: 28px 20px;
+  }
+
+  .login-logo {
+    width: 110px;
+    height: 110px;
+  }
+
+  .login-title {
+    font-size: 1.8rem;
+  }
+
+  /* Main Menu */
+  .menu-logo {
+    width: 140px;
+    height: 140px;
+  }
+
+  .menu-btn {
+    padding: 14px 20px;
+    font-size: 1.05rem;
+  }
+
+  /* HUD */
+  .game-hud {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 12px;
+  }
+
+  .hud-left {
+    display: none; /* Keep HUD compact on narrow screens */
+  }
+
+  .hud-center {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hud-lives {
+    font-size: 1.1rem;
+    gap: 4px;
+  }
+
+  .hud-cats-count {
+    font-size: 0.85rem;
+  }
+
+  .hud-right {
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .hud-score {
+    font-size: 0.95rem;
+  }
+
+  .hud-time {
+    font-size: 0.85rem;
+  }
+
+  /* Board sizing on mobile */
+  .board-arena-container {
+    padding: 6px 0;
+  }
+
+  .game-board {
+    gap: 5px;
+    padding: 8px;
+    max-height: 58vh;
+  }
+
+  .game-bottom-bar {
+    gap: 10px;
+  }
+
+  .btn-game-ctrl {
+    min-width: 90px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+
+  /* Level Select */
+  .screen-title {
+    font-size: 1.6rem;
+  }
+
+  .level-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  /* Leaderboard */
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: 10px 8px;
+    font-size: 0.82rem;
+  }
+
+  .user-avatar-mini {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* How to Play */
+  .demo-board-grid {
+    grid-template-columns: repeat(3, 56px);
+    grid-template-rows: repeat(2, 56px);
+  }
+
+  .demo-cell {
+    font-size: 1.2rem;
+  }
+}
+
+/* Touch Friendly Targets */
+@media (pointer: coarse) {
+  .board-cell {
+    touch-action: manipulation;
+  }
+  
+  .btn-magic,
+  .btn-game-ctrl,
+  .btn-icon-only {
+    min-height: 44px;
+  }
+}

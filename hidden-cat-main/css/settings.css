@@ -1,0 +1,173 @@
+/* ==========================================================================
+   HIDDEN CATS - Settings Page Styles
+   ========================================================================== */
+
+#screen-settings {
+  align-items: center;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 30px 16px;
+  overflow-y: auto;
+}
+
+.settings-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.settings-section-card {
+  padding: 22px 26px;
+}
+
+.settings-section-title {
+  font-family: var(--font-magic);
+  font-size: 1.15rem;
+  color: #c084fc;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 1px;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.settings-row:last-child {
+  border-bottom: none;
+  padding-bottom: 4px;
+}
+
+.settings-row-label {
+  display: flex;
+  flex-direction: column;
+}
+
+.setting-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.setting-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.settings-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Custom Toggle Switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: rgba(30, 20, 50, 0.8);
+  border: 1.5px solid rgba(167, 139, 250, 0.4);
+  transition: .3s;
+  border-radius: var(--radius-full);
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 2.5px;
+  background-color: #cbd5e1;
+  transition: .3s;
+  border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+  background-color: #7c4dff;
+  border-color: #c084fc;
+  box-shadow: 0 0 10px rgba(124, 77, 255, 0.6);
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(23px);
+  background-color: #ffffff;
+}
+
+/* Custom Range Slider */
+.magic-slider {
+  -webkit-appearance: none;
+  width: 110px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(30, 20, 50, 0.8);
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  outline: none;
+}
+
+.magic-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #c084fc;
+  cursor: pointer;
+  box-shadow: 0 0 10px #c084fc;
+  border: 2px solid #fff;
+}
+
+/* Quality Select dropdown */
+.select-magic {
+  background: rgba(20, 14, 38, 0.8);
+  border: 1.5px solid rgba(167, 139, 250, 0.35);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-game);
+  font-size: 0.9rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.select-magic option {
+  background: #140e26;
+  color: #fff;
+}
+
+.btn-logout {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.5);
+  color: #fca5a5;
+  width: 100%;
+}
+
+.btn-logout:hover {
+  background: rgba(239, 68, 68, 0.4);
+  color: #fff;
+  border-color: #ef4444;
+}

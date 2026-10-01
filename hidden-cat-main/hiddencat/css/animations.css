@@ -1,0 +1,176 @@
+/* ==========================================================================
+   HIDDEN CATS - Keyframe Animations & FX
+   ========================================================================== */
+
+@keyframes moonFloat {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+  100% { transform: translateY(6px) rotate(-1deg); }
+}
+
+@keyframes mistDrift {
+  0% { transform: translateX(0) scaleY(1); opacity: 0.7; }
+  50% { transform: translateX(5%) scaleY(1.1); opacity: 0.9; }
+  100% { transform: translateX(-5%) scaleY(1); opacity: 0.7; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px var(--accent-purple-glow);
+    filter: drop-shadow(0 0 8px var(--accent-purple-glow));
+  }
+  50% {
+    box-shadow: 0 0 30px var(--accent-magenta);
+    filter: drop-shadow(0 0 16px var(--accent-magenta));
+  }
+}
+
+@keyframes catPopReveal {
+  0% {
+    transform: scale(0.2) rotate(-15deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.18) rotate(5deg);
+    opacity: 1;
+  }
+  80% {
+    transform: scale(0.95) rotate(-2deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes cellShake {
+  0%, 100% { transform: translateX(0); }
+  15% { transform: translateX(-8px) rotate(-2deg); }
+  30% { transform: translateX(8px) rotate(2deg); }
+  45% { transform: translateX(-6px) rotate(-1deg); }
+  60% { transform: translateX(6px) rotate(1deg); }
+  75% { transform: translateX(-3px); }
+}
+
+@keyframes redFlash {
+  0% {
+    background-color: rgba(255, 51, 102, 0.8) !important;
+    border-color: #ff3366 !important;
+    box-shadow: 0 0 25px rgba(255, 51, 102, 0.9) !important;
+  }
+  100% {
+    background-color: inherit;
+    border-color: inherit;
+  }
+}
+
+@keyframes pawFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.4) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes catRoam {
+  0% {
+    transform: translateX(-150px) scaleX(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  48% {
+    transform: translateX(calc(100vw + 50px)) scaleX(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(calc(100vw + 50px)) scaleX(-1);
+    opacity: 0;
+  }
+  55% {
+    opacity: 0.8;
+  }
+  95% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(-150px) scaleX(-1);
+    opacity: 0;
+  }
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.18); }
+  50% { transform: scale(0.95); }
+  75% { transform: scale(1.12); }
+}
+
+@keyframes heartLost {
+  0% { transform: scale(1); filter: brightness(1); }
+  30% { transform: scale(1.4); filter: brightness(1.5) drop-shadow(0 0 10px #ff1744); }
+  100% { transform: scale(0.85); filter: grayscale(1) opacity(0.35); }
+}
+
+@keyframes toastIn {
+  0% {
+    opacity: 0;
+    transform: translateX(50px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes sparkleSpin {
+  0% { transform: rotate(0deg) scale(0.8); opacity: 0.5; }
+  50% { transform: rotate(180deg) scale(1.2); opacity: 1; }
+  100% { transform: rotate(360deg) scale(0.8); opacity: 0.5; }
+}
+
+@keyframes hintPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(255, 209, 102, 0.4);
+    border-color: rgba(255, 209, 102, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(255, 209, 102, 0.95), inset 0 0 20px rgba(255, 209, 102, 0.5);
+    border-color: #ffd166;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes floatBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Helper animation utility classes */
+.anim-shake {
+  animation: cellShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.anim-red-flash {
+  animation: redFlash 0.6s ease-out forwards;
+}
+
+.anim-pop {
+  animation: catPopReveal 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.anim-heart-beat {
+  animation: heartBeat 1.4s ease-in-out infinite;
+}
+
+.anim-heart-lost {
+  animation: heartLost 0.6s ease-out forwards;
+}
+
+.anim-hint-active {
+  animation: hintPulse 1.2s ease-in-out 3;
+}
